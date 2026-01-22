@@ -1,13 +1,21 @@
-package main 
+package main
 
 import (
-	"strings"
 	"bufio"
-	"os"
 	"fmt"
+	"os"
+	"strings"
+
+	"github.com/jwhite36929/pokedexcli/internal/pokeapi"
 )
 
-func startRepl() {
+type config struct {
+	pokeapiClient    pokeapi.Client
+	nextLocationsURL *string
+	prevLocationsURL *string
+}
+
+func startRepl(cfg *config) {
 	reader := bufio.NewScanner(os.Stdin)
 	for {
 		fmt.Print("Pokedex > ")
@@ -18,10 +26,10 @@ func startRepl() {
 			continue
 		}
 		commandName := words[0]
-		
+
 		command, exists := getCommands()[commandName]
 		if exists {
-			err := command.callback()
+			err := command.callback(cfg)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -33,36 +41,45 @@ func startRepl() {
 	}
 }
 
-
 func cleanInput(text string) []string {
-	//split user input into "words" based on whitespace 
+	//split user input into "words" based on whitespace
 	//trim any leading or trailing whitespave and lowercase the input
 
 	lowered := strings.ToLower(text)
-	
+
 	//fields returns a slice of strings around each instance of one or more consecutive white spaces
 	words := strings.Fields(lowered)
 	return words
-	
+
 }
 
 type cliCommand struct {
-	name string 
+	name        string
 	description string
-	callback func()error
+	callback    func(*config) error
 }
 
 func getCommands() map[string]cliCommand {
 	return map[string]cliCommand{
 		"help": {
-			name: "help",
+			name:        "help",
 			description: "Displays a help message",
-			callback: commandHelp,
+			callback:    commandHelp,
+		},
+		"map": {
+			name:        "map",
+			description: "Get the next page of locations",
+			callback:    commandMapf,
+		},
+		"mapb": {
+			name:        "mapb",
+			description: "Get the previous page of locations",
+			callback:    commandMapb,
 		},
 		"exit": {
-			name: "exit",
+			name:        "exit",
 			description: "Exit the Pokedex",
-			callback: commandExit,
+			callback:    commandExit,
 		},
 	}
 }
