@@ -10,20 +10,20 @@ func TestAddGet(t *testing.T) {
 	const interval = 5 * time.Second
 	cases := []struct {
 		key string
-		val []byte[]
+		val []byte
 	}{
 		{
 			key: "https://example.com",
-			val: byte[]("testdata"),
+			val: []byte("testdata"),
 		},
 		{
 			key: "https://example.com/path",
-			val: []byte("moretestdata")
+			val: []byte("moretestdata"),
 		},
 	}
 
 	for i, c := range cases {
-		t.Run(fmt.Sprintf("Test case %v, i"), func(t *testing.T){
+		t.Run(fmt.Sprintf("Test case %v", i), func(t *testing.T) {
 			cache := NewCache(interval)
 			cache.Add(c.key, c.val)
 			val, ok := cache.Get(c.key)
