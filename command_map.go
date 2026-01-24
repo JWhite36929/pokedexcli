@@ -1,11 +1,11 @@
-package main 
+package main
 
 import (
-	"fmt"
 	"errors"
+	"fmt"
 )
 
-func commandMapf(cfg *config) error {
+func commandMapf(cfg *config, args ...string) error {
 	locationsResp, err := cfg.pokeapiClient.ListLocations(cfg.nextLocationsURL)
 	if err != nil {
 		return err
@@ -13,14 +13,14 @@ func commandMapf(cfg *config) error {
 
 	cfg.nextLocationsURL = locationsResp.Next
 	cfg.prevLocationsURL = locationsResp.Previous
-	
+
 	for _, loc := range locationsResp.Results {
 		fmt.Println(loc.Name)
 	}
 	return nil
 }
 
-func commandMapb(cfg *config) error {
+func commandMapb(cfg *config, args ...string) error {
 	if cfg.prevLocationsURL == nil {
 		return errors.New("you're on the first page")
 	}
@@ -30,8 +30,8 @@ func commandMapb(cfg *config) error {
 		return err
 	}
 
-	cfg.nextLocationsURL = locationsResp.Next 
-	cfg.prevLocationsURL = locationsResp.Previous 
+	cfg.nextLocationsURL = locationsResp.Next
+	cfg.prevLocationsURL = locationsResp.Previous
 
 	for _, loc := range locationsResp.Results {
 		fmt.Println(loc.Name)
