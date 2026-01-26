@@ -20,7 +20,7 @@ func commandCatch(cfg *config, args ...string) error {
 	fmt.Printf("Throwing a Pokeball at %s...\n", pokemon.Name)
 
 	//RNG catch based on pokemon's base experience
-	if rand.Intn(pokemon.BaseExperience)%3 == 0 {
+	if rand.Intn(pokemon.BaseExperience)%2 == 0 {
 		fmt.Printf("%s was caught!\n", pokemon.Name)
 		cfg.caughtPokemon[pokemon.Name] = pokemon
 	} else {
