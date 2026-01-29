@@ -14,6 +14,7 @@ type config struct {
 	nextLocationsURL *string
 	prevLocationsURL *string
 	caughtPokemon    map[string]pokeapi.Pokemon
+	commandHistory   []string
 }
 
 func startRepl(cfg *config) {
@@ -84,7 +85,7 @@ func getCommands() map[string]cliCommand {
 		},
 		"inspect": {
 			name:        "inspect <pokemon-name>",
-			description: "list the stats of the specified Pokemon",
+			description: "Lists the stats of the specified Pokemon",
 			callback:    commandInspect,
 		},
 		"map": {
