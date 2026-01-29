@@ -10,7 +10,6 @@ import (
 )
 
 type configSave struct {
-	PokeapiClient pokeapi.Client             `json:"pokeApiClient"`
 	CaughtPokemon map[string]pokeapi.Pokemon `json:"caughtPokemon"`
 }
 
@@ -18,7 +17,6 @@ func commandExit(cfg *config, args ...string) error {
 	fmt.Println("Saving data...")
 
 	saveData := configSave{
-		PokeapiClient: cfg.pokeapiClient,
 		CaughtPokemon: cfg.caughtPokemon,
 	}
 

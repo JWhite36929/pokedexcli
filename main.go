@@ -28,7 +28,7 @@ func main() {
 		}
 		cfg := &config{
 			caughtPokemon: saveData.CaughtPokemon,
-			pokeapiClient: saveData.PokeapiClient,
+			pokeapiClient: pokeClient,
 		}
 		startRepl(cfg)
 
